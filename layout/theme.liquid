@@ -118,7 +118,6 @@
     </footer> 
     {% liquid 
       assign type_name = request.page_type
-      
   	  unless template == '404'
   		  if  type_name== "product" or type_name == "index" or type_name == 'cart'
           	section 'cross-sell-popup'  
