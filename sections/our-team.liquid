@@ -1,0 +1,632 @@
+{% assign sid = section.id %}
+<section id="laber_{{ sid }}">          
+  <div class="{{ section.settings.layout }}">
+    <div class="{% if section.settings.title != blank %} wrap_title {% endif %}">
+      {% if section.settings.sub_title != blank %}<span class="section-subtitle">{{ section.settings.sub_title }}</span>{% endif %} 
+      {% if section.settings.title != blank %}<h2 class="section-title"><span > {{ section.settings.title }}</span></h3>{% endif %} 
+    </div> 
+
+    {% include 'grid-slider', settings: section.settings %}
+    <div class="section_content grid-slider" {{ gridSlider }}>
+      {%- for block in section.blocks -%}
+        <div class="item item-{{ block.id }}">
+          <div class="inner-item">
+            <div class="avatar">
+              {%- assign img_url = block.settings.avatar -%}
+              {% if img_url != blank %}
+                <img title="{{ img_url }}" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ img_url | img_url: '200x200' }}" />
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'avatar image' }}
+              {% endif %}
+            </div>
+            <div class="intro">
+              <div class="info">
+                <h4>{{ block.settings.name }}</h4>
+                <span>{{ block.settings.job }}</span>
+                <p>{{ block.settings.des }}</p>
+              </div>
+              <div class="social">
+                <ul>
+                  {% if block.settings.enable_use_facebook %}
+                  <li><a href="{{ block.settings.facebook_link }}"><span class="fa fa-facebook"></span></a></li>
+                  {% endif %}
+                  {% if block.settings.enable_use_twitter %}
+                  <li><a href="{{ block.settings.twitter_link }}"><span class="fa fa-twitter"></span></a></li>                  
+                  {% endif %}
+                  {% if block.settings.enable_use_instagram %}
+                  <li><a href="{{ block.settings.instagram_link }}"><span class="fa fa-instagram"></span></a></li>
+                  {% endif %}
+                  {% if block.settings.enable_use_youtube %}
+                  <li><a href="{{ block.settings.youtube_link }}"><span class="fa fa-youtube"></span></a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          {% style %}
+            #laber_{{ sid }} .item-{{ block.id }} .inner-item{
+              background-color: {{ block.settings.member_bg }};
+            }
+            
+            #laber_{{ sid }} .item-{{ block.id }} .info h4,
+            #laber_{{ sid }} .item-{ block.id }} .info p{
+              color: {{ block.settings.member_cl }};
+            }
+            
+            #laber_{{ sid }} .item-{{ block.id }} .info span{
+              color: {{ block.settings.member_hl }};
+            }
+            
+            #laber_{{ sid }} .item-{{ block.id }} .social ul li a{
+              background-color: {{ block.settings.social_bg }};
+              color: {{ block.settings.social_cl }};
+            }
+            
+            #laber_{{ sid }} .item-{{ block.id }} .social ul li a:hover{
+              background-color: {{ block.settings.social_bg_hv }};
+              color: {{ block.settings.social_cl_hv }};
+            }
+          {% endstyle %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{%- render 'section_style' -%}
+
+{% style %}
+  #laber_{{ sid }}{
+    background-color: {{ section.settings.cl_bg }};
+  }
+  
+  #laber_{{ sid }} .section-title{
+    color: {{ section.settings.hd_cl }};
+  }
+{% endstyle %}
+
+{%- schema -%}
+  {
+    "name": "Our team",
+    "class": "cms_section type_team",
+	"max_blocks": 20,	
+    "settings": [
+	  {
+        "type": "header",
+        "content": "---- Design Options ----"
+      },   
+      {
+        "type": "select",
+        "id": "layout",
+        "default": "container",
+        "options": [
+         {
+            "value": "container",
+            "label": "Container"
+         },
+         {
+            "value": "nt_full",
+            "label": "Full Width"
+          }
+        ],
+        "label": "Layout"
+      },
+      {
+        "type": "color",
+        "id": "hd_cl",
+        "label": "Heading color",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "cl_bg",
+        "label": "Background color",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "---- General setting ----"
+      },     
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title of section",
+        "default": "Professional team"
+      },
+	  {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Subtitle"
+      },
+      {
+      "type": "header",
+      "content": "---- Slider Show Collection ----",
+      "info": "Refer to the attribute values [here](httpss://kenwheeler.github.io/slick)"
+    },  
+    {
+      "type": "checkbox",
+      "id": "use-slider",
+      "label": "Use slider?",
+      "default": true
+    },
+    {  
+      "type": "range",  
+      "id": "slides-To-Scroll",  
+      "label": "Slide to scroll",  
+      "info": "The number of items slide to scroll",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 1
+    },   
+    {  
+      "type": "range",  
+      "id": "visible",  
+      "label": "Columns in Visible",
+      "info": "Item(s) in screen ( Size >= 1920 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 5 
+    },
+    {  
+      "type": "range",  
+      "id": "widescreen",  
+      "label": "Columns in Widescreen",
+      "info": "Item(s) in screen ( 1366 <= Size < 1920 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 4 
+    },  
+    {  
+      "type": "range",  
+      "id": "desktop",  
+      "label": "Columns in Desktop",
+      "info":  "Item(s) in screen ( 1200 <= Size < 1480 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 4  
+    },    
+    {  
+      "type": "range",  
+      "id": "laptop",  
+      "label": "Columns in Laptop",
+      "info": "Item(s) in screen ( 992 <= Size < 1200 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 4
+    },    
+    {  
+      "type": "range",  
+      "id": "notebook",  
+      "label": "Columns in Notebook",
+      "info": "Item(s) in screen ( 768 <= Size < 992 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3  
+    },  
+    {  
+      "type": "range",  
+      "id": "tablet",  
+      "label": "Columns in Tablet",
+      "info": "Item(s) in screen ( 576 <= Size < 768 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3 
+    },
+    {  
+      "type": "range",  
+      "id": "landscape",  
+      "label": "Columns in Landscape",
+      "info": "Item(s) in screen ( 480 <= Size < 576 )",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "col",
+      "default": 2 
+    }, 
+    {  
+      "type": "range",  
+      "id": "portrait",  
+      "label": "Columns in Portrait",
+      "info": "Item(s) in screen ( 360 < Size < 480 )",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "col",
+      "default": 2 
+    },
+    {  
+      "type": "range",  
+      "id": "mobile",  
+      "label": "Columns in Mobile",
+      "info": "Item(s) in screen ( Size < = 360 )",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "col",
+      "default": 1 
+    },
+    {  
+      "type": "range",  
+      "id": "rows",  
+      "label": "Rows Slider",  
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "unit": "row",
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    { 
+      "type": "text",
+      "id": "speed",
+      "label": "Speed",
+      "default": "300",
+      "info": "Autoplay Speed in milliseconds"
+    },
+    { 
+      "type": "text",
+      "id": "autoplay-Speed",
+      "label": "Auto Play Speed",
+      "default": "3000",
+      "info": "Autoplay Speed in milliseconds"
+    },
+    { 
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Arrows",
+      "default": true
+    },
+    { 
+      "type": "checkbox",
+      "id": "adaptive-Height",
+      "label": "Adaptive Height",
+      "default": false
+    },
+    { 
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Dots",
+      "default": false 
+    },
+    { 
+      "type": "checkbox",
+      "id": "infinite",
+      "label": "Infinite",
+      "default": false
+    },
+    {
+        "type": "number",
+        "id": "padding",
+        "label": "Padding",
+        "default": 15
+    },
+    {
+        "type": "range",
+        "id": "mg_top",
+        "label": "Margin Top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mg_bottom",
+        "label": "Margin bottom",
+        "default": 100,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_top",
+        "label": "Padding Top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_bottom",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+          "type": "header",
+          "content": "---- Padding & Margin Laptop ----"
+      },
+      {
+        "type": "range",
+        "id": "mg_top_laptop",
+        "label": "Margin top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mg_bottom_laptop",
+        "label": "Margin bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_top_laptop",
+        "label": "Padding top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_bottom_laptop",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+     {
+          "type": "header",
+          "content": "---- Padding & Margin Tablet ----"
+      },
+      {
+        "type": "range",
+        "id": "mg_top_tablet",
+        "label": "Margin top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mg_bottom_tablet",
+        "label": "Margin bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_top_tablet",
+        "label": "Padding top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_bottom_tablet",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+          "type": "header",
+          "content": "---- Padding & Margin Mobile ----"
+      },
+      {
+        "type": "range",
+        "id": "mg_top_mobile",
+        "label": "Margin top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mg_bottom_mobile",
+        "label": "Margin bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_top_mobile",
+        "label": "Padding top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_bottom_mobile",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      }
+    ],
+	"blocks": [		
+		{
+          "type": "team",
+          "name": "Member",
+          "settings": [
+			  {
+                "type": "image_picker",
+                "id": "avatar",
+                "label": "Avatar",
+                "info": "Recommand 200x200.jpg"
+              },   	
+              {
+                "type": "text",
+                "id": "name",
+                "label": "Name",
+                "default": "Danielle Welling"
+              },
+			  {
+                "type": "text",
+                "id": "job",
+                "label": "Job",
+                "default": "Nail master"
+              },
+			  {
+                "type": "richtext",
+                "id": "des",
+                "label": "Description"
+              },
+              {
+                "type": "color",
+                "id": "member_cl",
+                "label": "Member color",
+                "default": "#000000"
+              },
+              {
+                "type": "color",
+                "id": "member_bg",
+                "label": "Member background color",
+                "default": "#f2f2f6"
+              },
+              {
+                "type": "color",
+                "id": "member_hl",
+                "label": "Member color highlight",
+                "default": "#ff6f00"
+              },
+              {
+                "type": "color",
+                "id": "social_cl",
+                "label": "Social color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "social_bg",
+                "label": "Social background color",
+                "default": "#ff6f00"
+              },
+              {
+                "type": "color",
+                "id": "social_cl_hv",
+                "label": "Social color hover",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "social_bg_vh",
+                "label": "Social background color hover",
+                "default": "#cc5900"
+              },
+              {
+                "type": "header",
+                "content": "---- Social setting ----"
+              },
+			  {
+                "type": "text",
+                "id": "facebook_link",
+                "label": "Facebook link",
+                "default": "#"
+              },
+			  {
+                "type": "checkbox",
+                "id": "enable_use_facebook",
+                "label": "Use facebook",
+                "default": true
+              },
+		      {
+                "type": "text",
+                "id": "twitter_link",
+                "label": "Twitter link",
+                "default": "#"
+              },
+			  {
+                "type": "checkbox",
+                "id": "enable_use_twitter",
+                "label": "Use twitter",
+                "default": true
+              },
+			  {
+                "type": "text",
+                "id": "instagram_link",
+                "label": "Instagram link",
+                "default": "#"
+              },
+			  {
+                "type": "checkbox",
+                "id": "enable_use_instagram",
+                "label": "Use instagram",
+                "default": true
+              },
+			  {
+                "type": "text",
+                "id": "youtube_link",
+                "label": "Youtube link",
+                "default": "#"
+              },
+			  {
+                "type": "checkbox",
+                "id": "enable_use_youtube",
+                "label": "Use youtube",
+                "default": true
+              }
+          ]
+    	}
+    ],
+    "presets": [
+      {
+        "name": "2. Our team",
+        "category": "Introduce",
+		"blocks": [
+          { "type": "team" },
+          { "type": "team" },
+          { "type": "team" },
+          { "type": "team" }
+        ]
+      }
+    ]
+  }
+{% endschema %}

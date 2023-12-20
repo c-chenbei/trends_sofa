@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "davici";
+    src: url("./davici.ttf?41977ed826e6522d65ef18a60e3b8598") format("truetype"), url("./davici.woff?41977ed826e6522d65ef18a60e3b8598") format("woff"), url("./davici.woff2?41977ed826e6522d65ef18a60e3b8598") format("woff2"), url("./davici.eot?41977ed826e6522d65ef18a60e3b8598#iefix") format("embedded-opentype"), url("./davici.svg?41977ed826e6522d65ef18a60e3b8598#davici") format("svg");
+}
+
+i[class^="davici-"]:before,
+i[class*=" davici-"]:before {
+    font-family: davici !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.davici-loupe:before {
+    content: "\f101";
+}
+
+.davici-shopping-bag:before {
+    content: "\f102";
+}
+
+.davici-calendar:before {
+    content: "\f103";
+}
+
+.davici-filter:before {
+    content: "\f104";
+}
+
+.davici-left-quote:before {
+    content: "\f105";
+}
+
+.davici-right-quotation-sign:before {
+    content: "\f106";
+}
+
+.davici-like:before {
+    content: "\f107";
+}
+
+.davici-shuffle:before {
+    content: "\f108";
+}
+
+.davici-enter:before {
+    content: "\f109";
+}
+
+.davici-telephone:before {
+    content: "\f10a";
+}
+
+.davici-email:before {
+    content: "\f10b";
+}
+
+.davici-right-arrow:before {
+    content: "\f10c";
+}
+
+.davici-left-arrow:before {
+    content: "\f10d";
+}
+
+.davici-check-box:before {
+    content: "\f10e";
+}
+
+.davici-check-box-1:before {
+    content: "\f10f";
+}
+
+.davici-list:before {
+    content: "\f110";
+}
+
+.davici-option:before {
+    content: "\f111";
+}
+
+.davici-padlock:before {
+    content: "\f112";
+}
+
+.davici-placeholder:before {
+    content: "\f113";
+}
+
+.davici-office-building:before {
+    content: "\f114";
+}
+
+.davici-mailbox:before {
+    content: "\f115";
+}
+
+.davici-gps:before {
+    content: "\f116";
+}
+
+.davici-user:before {
+    content: "\f117";
+}
+
+.davici-truck:before {
+    content: "\f118";
+}
+
+.davici-credit-card:before {
+    content: "\f119";
+}
+
+.davici-square:before {
+    content: "\f11a";
+}
+
+.davici-menu:before {
+    content: "\f11b";
+}

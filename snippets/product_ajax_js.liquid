@@ -1,0 +1,43 @@
+{%- liquid
+	assign on_sale = false
+	assign image = product.images[0]
+	if product.compare_at_price_min > product.price_min
+	  assign on_sale = true 
+	endif -%}
+{%- assign ratio = image.aspect_ratio -%}
+<div class="item">
+  <div class="row">
+      <div class="col img_pr">
+          {%- if image != blank %}{% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+          <a href="{{ product.url | within: c}}">
+            	<div data-image-effect class="pr_lazy_img main-img lazyload laber_bg_lz  " data-id="{{ image.id }}" data-bgset="{{ image | img_url: '100x' }}" data-parent-fit="width" data-wiis data-ratio="{{ ratio }}" data-sizes="auto" style="padding-top:{{ 1 | divided_by: ratio | times: 100 }}%;"></div>
+        </a>
+        {%- endif -%}
+      </div>
+      <div class="col content_pr">
+           <a class="product-title " href="{{ product.url | within: c}}">{{ product.title }}</a>
+        <div class="product-price">
+          
+         {%- if product.price_varies -%}
+         	 {{ product.price_min | money }}–{{ product.price_max | money }}
+          
+          {%- elsif on_sale -%}
+          		
+          			
+          		<span class="current">{{ product.price | money }}</span>
+              <span class="compare">
+                {{ product.compare_at_price | money }}
+              </span> 
+          		{% comment %}{%- if settings.label_sale_style == '1' -%}
+          		<span class="laber_label onsale">{{ on_sale_txt }}</span>
+          			{%- else-%}{%- assign save = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | ceil -%}
+          		<span class="onsale laber_label">{{ save_js | replace: 'saved_amount',save }}</span>{% endif -%}
+          		{% endcomment %}
+          {%- else -%}
+          {{ product.price | money }}
+          {%- endif -%}
+          
+        </div>
+      </div>
+  </div>
+</div>

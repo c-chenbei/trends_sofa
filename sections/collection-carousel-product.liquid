@@ -1,0 +1,305 @@
+{% liquid
+  assign id = section.id 
+  assign sett_equal = section.settings.use_eq_height
+  assign layout_des = section.settings.layout_des
+  assign collection = section.settings.collection 
+
+	assign mg_top =section.settings.mg_top | plus: 0
+    assign mobile_mg_top =section.settings.mobile_mg_top | plus: 0
+    assign mg_bottom =section.settings.mg_bottom | plus: 0
+    assign mobile_mg_bottom =section.settings.mobile_mg_bottom | plus: 0
+ 	assign pd_top =section.settings.pd_top | plus: 0
+    assign mobile_pd_top =section.settings.mobile_pd_top | plus: 0
+    assign pd_bottom =section.settings.pd_bottom | plus: 0
+    assign mobile_pd_bottom =section.settings.mobile_pd_bottom | plus: 0
+    
+    assign row_num =section.settings.row_num
+%}
+   
+{%- for i in (1..1) -%}  
+<section style="margin:{{ section.settings.mg_top }}px {{ section.settings.mg_right }}px {{ section.settings.mg_bottom }}px {{ section.settings.mg_left }}px; background-color:{{ section.settings.cl_bg }};">
+  <div class="laber_product_section_{{ id }} {{ section.settings.layout }} ">
+    <div class="wrap_title">
+      
+      {% if section.settings.title != blank %}<h3 class="section-title"><span > {{ section.settings.title | downcase }}</span></h3>{% endif %} 
+      {% if section.settings.sub_title != blank %}<span class="section-subtitle">{{ section.settings.sub_title | downcase }}</span>{% endif %} 
+    </div> 
+    <div class="products-arrivals ">
+      {%- if collection != blank -%} 
+          <div class="section-content">
+            {% capture grid %}animated fadeIn padding-0-15{% endcapture %}              
+            <div class="js_carousel_product row"  data-limit="{{ section.settings.max_count }}" data-grid="{{ grid }}" data-slideToShow="{{ section.settings.col_pr }}" data-slick='{"rows":{{ row_num }}, "slidesToShow": {{ section.settings.col_pr }}, "slidesToScroll":1, "lazyLoad": "ondemand","infinite": {{ section.settings.loop }}, "arrows": true}'>                               
+              {%- assign products = collections[collection].products -%}
+              {%- capture url_cat -%}{% if collection %}/collections/{{ collections[collection].handle }}{% endif %}{%- endcapture -%}
+              {%- for product in products limit: section.settings.max_count -%}
+              {% assign pr_hd = product.handle %}
+                <div data-lazy-product-load class="{% if products.size >= section.settings.max_count %}{{ grid }} {% else %} col-sm-12 {% endif %} lazyload" data-include="{{ url_cat }}/products/{{ pr_hd }}/?view=">                      
+
+                </div>
+              {%- endfor -%}                         
+            </div>
+          </div>
+          {% if section.settings.show_view_all %}
+      		<div class="bn_button viewall text-center"><a href="{{ collections[collection].url | default: '/admin/collections' }}">{{ 'collections.general.view_all' | t }} <i class="icon-arrow-right" aria-hidden="true"></i></a></div>
+      		{% endif %}
+      {%- else -%}
+      	<div class="js_carousel_product row"  data-limit="{{ section.settings.max_count }}" data-grid="{{ grid }}" data-slideToShow="{{ section.settings.col_pr }}" data-slick='{"rows":{{ row_num }},"slidesToShow": {{ section.settings.col_pr }}, "slidesToScroll":1, "lazyLoad": "ondemand","infinite": {{ section.settings.loop }}, "arrows": true}'> 
+		{%- for i in (1..16) -%}
+                <div class="pr_grid_item  padding-0-15">
+                  <div class="product-inner">
+                    <div class="product-image">
+                      	<a href="/admin/products" class="product__image-wrapper">
+                        	{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                        </a>
+                    </div>
+                  </div>
+                  <div class="product-collection__content">
+                    <h3 class="product-collection__title">
+                      	<a class="cd" href="/admin/products">{{ 'homepage.onboarding.product_title' | t }}</a>
+                   	</h3>
+                    <span class="price price--sale">
+                      	<span class="compare"><span class="money">$39.00</span></span>
+                      	<span class="current"><span class="money">$59.00</span></span>
+                      
+                    </span>
+                  </div>
+                </div>
+             {%- endfor -%}   
+      	</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endfor -%}
+{% style %}
+	.laber_product_section_{{ id }}{
+      {% if mg_top != 0 %}margin-top:{{mg_top }}px;{% endif %} 
+      {% if mg_bottom != 0 %}margin-bottom:{{ mg_bottom }}px;{% endif %} 
+      {% if pd_top != 0 %}padding-top:{{ pd_top }}px;{% endif %} 
+      {% if pd_bottom != 0 %}padding-bottom:{{ pd_bottom }}px;{% endif %} 
+      background-color:{{ cl_bg }};
+	}
+    @media (max-width: 767px) {
+      .laber_product_section_{{ id }}{
+        {% if mobile_mg_top != 0 %}margin-top:{{ mobile_mg_top }}px;{% endif %} 
+        {% if mobile_mg_bottom != 0 %}margin-bottom:{{mobile_mg_bottom }}px;{% endif %} 
+        {% if mobile_pd_top != 0 %}padding-top:{{ mobile_pd_top }}px;{% endif %} 
+        {% if mobile_pd_bottom != 0 %}padding-bottom:{{mobile_pd_bottom }}px;{% endif %} 
+      }
+    }
+{% endstyle %}
+
+{%- schema -%}
+  {
+    "name": "Carousel Products",
+    "class": "laber_section cms_section type_carousel product_section collection_carousel_product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "== Title Settings"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Beauty products"
+      },
+      {
+        "type": "textarea",
+        "id": "sub_title",
+        "label": "Sub Text"
+      },  
+      {
+        "type": "header",
+        "content": "== General Settings"
+      },     
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+      "type": "checkbox","id": "loop","label": "Use Loop?","info": "Infinity loop. Duplicate last and first items to get loop illusion.","default": false
+      },
+      {
+        "type": "range",
+        "id": "max_count",
+        "min": 4,
+        "max": 24,
+        "step": 1,
+        "unit": "pds",
+        "label": "Max product",
+        "default": 8
+      },
+	  {
+        "type": "select",
+        "id": "col_pr",
+        "label": "Product per row",
+        "info": "How many product you want to show per row (Layout design is grid)",
+        "default": "4",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ]
+      },  
+	  {
+        "type": "range",
+        "id": "row_num",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "label": "Row number",
+		"info": "Number of rows you want to display (Layout design is grid)",
+        "default": 1
+      },
+	  {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show View all button",
+        "default": false
+      }, 
+      {
+        "type": "header",
+        "content": "== Design Options"
+      },      
+      {
+        "type": "select",
+        "id": "layout",
+        "default": "container",
+        "options": [
+         {
+            "value": "container",
+            "label": "Container"
+         },
+         {
+            "value": "nt_full",
+            "label": "Full Width"
+          }
+        ],
+        "label": "Layout"
+      },
+      {
+        "type": "color",
+        "id": "cl_bg",
+        "label": "Background color",
+        "default": "#fff"
+      },
+	  {
+        "type": "header",
+        "content": "== Margin",
+		"info": "Margin top, margin bottom. If you not use to blank"
+      },  
+      {
+        "type": "range",
+        "id": "mg_top",
+        "label": "Margin top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mg_bottom",
+        "label": "Margin bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+	  {
+        "type": "header",
+        "content": "== Padding",
+		"info": "Padding top, Padding bottom . If you not use to blank"
+      },	
+      {
+        "type": "range",
+        "id": "pd_top",
+        "label": "Padding top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "pd_bottom",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+	  {
+        "type": "header",
+        "content": "== Setting mobile",
+		"info": "Padding and Margin"
+      },
+	 {
+        "type": "range",
+        "id": "mobile_mg_top",
+        "label": "Margin top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mobile_mg_bottom",
+        "label": "Margin bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+	  {
+        "type": "range",
+        "id": "mobile_pd_top",
+        "label": "Padding top",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mobile_pd_bottom",
+        "label": "Padding bottom",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      }    
+    ],
+    "presets": [
+      {
+        "name": "4.A Carousel products",
+        "category": "Collections"
+      }
+    ]
+  }
+{% endschema %}

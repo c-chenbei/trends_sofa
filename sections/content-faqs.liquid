@@ -1,0 +1,267 @@
+{% liquid
+	assign faq_title_page = section.settings.faq_title_page
+    assign faq_title = section.settings.faq_title
+    assign faq_desc = section.settings.faq_desc
+    assign show_content = section.settings.show_content
+    assign show_menu = section.settings.show_menu
+    assign menu_page = linklists[section.settings.menu_page]
+%}
+
+<div class="main-content page-faqs">
+  <div class="container vc_column_container">
+    <div class="content">
+      <div class="head">
+        <div class="title">{{ faq_title_page }}</div>
+        {%- if section.settings.time_year != blank and section.settings.time_month != blank and section.settings.time_day != blank %}
+          <div class="time">
+            <span class="label">{{ section.settings.time_text }}</span>
+            <span class="value">
+              <span class="valua-item month">{{ section.settings.time_month }}</span>
+              <span class="valua-item day">{{ section.settings.time_day }}</span>,
+              <span class="valua-item year">{{ section.settings.time_year }}</span>
+            </span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="{% if show_menu %}col-xs-12 col-sm-12  col-lg-9 content-offset-right{% else %}col-sm-12 {% endif %}">
+          {% if show_content %}
+            <div class="faq_content">
+              {% if faq_title != blank %}<h3>{{ faq_title }}</h3>{% endif %}
+              {% if faq_desc != blank %}
+                <div class="faq_desc">{{ faq_desc }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {%- if section.blocks.size > 0 -%}   
+            <div class="faqs_blocks">
+              {%- for block in section.blocks -%}
+                {% case block.type %}
+                  {% when 'faq' %}    
+                    <div id="faqs_{{ block.id }}" class="faqs_block">
+                      {% if block.settings.faq_name != blank and  block.settings.faq_desc != blank %}
+                        <div class="faqs_block_content js-item-faq item parent-click-show{% if forloop.first %} active{% endif %}" id="block_{{ block.id }}">
+                          <div class="title-faqs title-click-show">
+                            <h3 class="heading-title">
+                              <span class="faqs-icon fa fa-plus"></span>
+                              <span>{{ block.settings.faq_name }}</span></h3>
+                          </div>
+      
+                          <div class="content-faqs content-click-show">
+                            <div class="element">
+                              <p>{{ block.settings.faq_desc }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                {% endcase %}
+              {%- endfor -%}
+            </div>    
+          {% else %}
+            {% assign desc = "Click on a Product Photo or Product Name to see more detailed information. To place your order, choose the specification you want and enter the quantity, and click ‘Buy Now’. Please enter the required information such as Delivery Address, Quantity Type etc. Before clicking /“Place Order/”, please check your Order Details carefully. If you want to add a new Delivery Address, click /” Add a new address/”. If you want to edit a current Delivery Address, click ‘Edit this address’. After confirming your Order, you will be automatically taken to the Payment page." %}
+            {%- capture current_title -%}{%- cycle "How do I place an order?", "What payment methods are accepted?", "What do you do with my information?", "What happen if there is a pricing error?","Do you ship internationally?","How to track my order?" -%}{%- endcapture -%}
+            {%- capture current_desc -%}{%- cycle desc -%}{%- endcapture -%}
+            <div class="js-item-faq item{% if forloop.first %} active {% endif %}" id="block_{{ i }} parent-click-show">
+              <div class="title-faqs title-click-show">
+                <span>{{ 'faqs.question' | t }}</span>
+                <h3 class="heading-title">
+                  <span>{{ current_title }}</span>
+                  <i class="lnr lnr-chevron-down-circle icon {% unless forloop.first %} active {% endunless %}"></i>
+                </h3>
+              </div>
+
+              <div class="content-faqs content-click-show">
+                <div class="element"><p>{{ current_desc }}</p></div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if show_menu %}
+          <div id="js-stickySidebar" class="col-xs-12 col-sm-12 col-md-3 sidebar js-sidebar-mobile-content sidebar-moible  ps-container">
+            {% if section.settings.menu_page != blank %}
+              <ul class="nav-accordion list-unstyled">
+                {%- for link in menu_page.links -%}
+                  <li class="level1"><a href="{{ link.url }}">{{ link.title }}</a>
+                    {% if link.links != blank %}
+                      <ul class="submenu list-unstyled">
+                        {% for child_link in link.links %}  
+                        <li class="level2"><a href= "{{ child_link.url }}">{{ child_link.title }}</a>
+                          {% if child_link.links != blank %}
+                          <ul class="submenu2 list-unstyled">
+                            {% for grandchild_link in child_link.links %}  
+                            <li class="level3"><a href= "{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                          {% endif %}   
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %} 
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <ul class="nav-accordion list-unstyled">
+                <li><a href="#">Collection list</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">404</a></li>
+                <li><a href="#">Account</a></li>
+              </ul>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div> 
+
+    {%- for block in section.blocks -%}
+      {% case block.type %}
+        {% when 'qickly_faq' %}    
+          {% if block.settings.ql_faq_name != blank or block.settings.ql_faq_ac != blank %}
+            <div class="content content-bottom">
+              <div class="quickly-question">
+                {% if block.settings.ql_faq_name != blank %}
+                  <h2 class="title">{{ block.settings.ql_faq_name }}</h2>
+                {% endif %}
+
+                {% if block.settings.ql_faq_ac != blank %}
+                  <a href="{{ block.settings.ql_faq_link }}" class="action">{{ block.settings.ql_faq_ac }}</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "max_blocks": 30,
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "'Add Question' to clear default data"
+      }, 
+      {
+        "type": "header",
+        "content": "---- General Setting ----"
+      },
+      {
+        "type": "text",
+        "id": "faq_title_page",
+        "label": "Title page",
+        "default": "FAQ"
+      },
+      {
+        "type": "text",
+        "id": "time_text",
+        "label": "Update Time Text",
+        "default": "Last Updated on"
+      },
+      {
+        "type": "text",
+        "id": "time_year",
+        "label": "Year",
+        "default": "2022"
+      },
+      {
+        "type": "text",
+        "id": "time_month",
+        "label": "Month",
+        "default": "January"
+      },
+      {
+        "type": "text",
+        "id": "time_day",
+        "label": "Day",
+        "default": "10"
+      },
+      {
+        "type": "header",
+        "content": "---- Content FAQ ----"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_content",
+        "label": "Show content",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "faq_title",
+        "label": "Title",
+        "default": "How can we help you?"
+      },
+      {
+        "type": "richtext",
+        "id": "faq_desc",
+        "label": "Description"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_menu",
+        "label": "Show menu",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "menu_page",
+        "label": "Menu"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "faq",
+        "name": "Question",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_name",
+            "label": "Question",
+            "default": "How do I place an order?"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_desc",
+            "label": "Description"
+          }
+        ]
+      },
+      {
+        "type": "qickly_faq",
+        "name": "Quickly Action",
+        "settings": [
+          {
+            "type": "text",
+            "id": "ql_faq_name",
+            "label": "Quickly Question",
+            "default": "Frequently asked questions"
+          },
+          {
+            "type": "text",
+            "id": "ql_faq_ac",
+            "label": "Quickly Question Action",
+            "default": "Contact"
+          },
+          {
+            "type": "url",
+            "id": "ql_faq_link",
+            "label": "Quickly Question Action link",
+            "info": "Optional"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+

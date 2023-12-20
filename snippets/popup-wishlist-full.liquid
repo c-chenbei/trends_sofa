@@ -1,0 +1,11 @@
+<div class="popup-wishlist-full" data-popup-content>
+    <div class="popup-wishlist-full__head">
+      	{%- if template contains 'page.' -%}
+                <h1 class="widget-title {% if items_length < 1 %} d-none{% endif %}" data-js-store-lists-has-items-wishlist>{{ page.title }}</h1>
+            {%- else -%}
+                <h2 class="widget-title {% if items_length < 1 %} d-none{% endif %}" data-js-store-lists-has-items-wishlist>{{ 'general.wishlist-full.title' | t }}</h2>
+            {%- endif -%}
+      	<i class="lnr lnr-cross" data-js-popup-close></i>        
+    </div>
+    <div class="popup-wishlist-full__content"></div>
+</div>

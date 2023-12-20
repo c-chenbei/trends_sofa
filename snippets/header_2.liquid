@@ -1,0 +1,234 @@
+{% assign admin_sp = request.design_mode %}
+<div class="header layout2 no-prepend-box-sticky">    
+  {% include 'currency-picker' %}
+  <div class="header-main-wrap">
+    <div class="header-top">
+      <div class="container {% if section.settings.layout == 'full-width' %}{{ section.settings.layout }} {% endif %}">
+        <div class="row">
+          <div class="header-nav-mobile col-md-4 col-4">
+            <a class="js-mobile-menu menu-bar mobile-navigation" href="javascript:void(0)">
+              <span class="icon">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </a>
+          </div>
+          <div class="block-header-left col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
+            <div class="header-logo">
+
+              {% if settings.logo != blank %}
+                  <a href="/" class="site-header__logo-image">
+                    {% capture image_size %}{{ settings.logo_max_width | escape }}x{% endcapture %}
+                    <img loading="lazy"                                          
+                        src="{{ settings.logo | img_url: image_size, scale: 2 }}"                      
+                        alt="{{ logo_alt | escape }}"
+                        style="max-width: {{ settings.logo_max_width }}px; width:auto; height:auto;">
+                  <noscript>
+                    {% capture image_size %}{{ settings.logo_max_width | escape }}x{% endcapture %}
+                    <img loading="lazy" src="{{ settings.logo | img_url: image_size }}"
+                          srcset="{{ settings.logo | img_url: image_size }} 1x, {{ settings.logo | img_url: image_size, scale: 2 }} 2x"
+                          alt="{{ settings.logo.alt | default: shop.name }}"
+                          style="max-width: {{ settings.logo_max_width }}px; width:auto; height:auto;">
+                  </noscript>
+                  </a>
+                {% else %}
+                  <a class="site-title" href="/" itemprop="url">{{ shop.name }}</a>
+                {% endif %}
+            </div>  
+
+
+          </div>
+
+          <div class="header-top-meta block-header-right col-xl-10 col-lg-10 col-md-10 col-sm-4 col-4">
+            <div class="block-header-right-content">
+              {% if section.settings.header_use_search_home %}
+              <div  class="aloSearch header-search col"> 
+                <div class="laber_mini_cart">
+                  <div class="mini_cart_wrap laber_search">
+                    <form action="{{ routes.search_url }}" method="post" class="search_header mini_search_frm pr js_frm_search" role="search">
+                      <input type="hidden" name="type" value="product">
+                      <input type="hidden" name="options[unavailable_products]" value="last">
+                      <input type="hidden" name="options[prefix]" value="none">
+
+                      <div class="row">
+                        <div class="frm_search_cat col-auto">
+                          <select name="product_type">
+                            <option value="*">{{ 'general.search.all_cat' | t }}</option>
+                            {%- for product_type in shop.types -%}{%- if product_type == blank %}{% continue %}{% endif -%}<option value="{{ product_type }}"{% if search_pr_type == product_type %} selected="selected"{% endif %}>{{ product_type }}</option>{%- endfor -%}
+                          </select>
+                        </div>
+                        <div class="frm_search_input col">
+                          <input class="search_header__input js_iput_search" autocomplete="off" type="text" name="q" placeholder="{{ 'general.search.placeholder' | t }}">
+                        </div>
+
+                        <div class="col-auto btn_search">
+                          <button class="search_header__submit js_btn_search{% if settings.ajax_search %} pe_none{% endif %}" type="submit">
+                            <span>{{ 'general.search.btn' | t }}</span>
+
+                          </button> 
+                        </div>
+                      </div>  
+                    </form> 
+                    <div class="mini_cart_content fixcl-scroll widget">
+                      <div class="fixcl-scroll-content product_list_widget">
+                        <div class="skeleton_wrap skeleton_js d-none">
+                          <div class="loading_search">
+                            <div class="jloading">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="js_prs_search">
+                          <div class="row">
+                          {%- if collection != blank -%}
+                          {%- for product in collection.products limit: limit -%}
+                          {%- render 'product_ajax_js', product: product, on_sale_txt: on_sale_txt, save_js: save_js -%}
+                          {%- endfor -%}
+
+                          {%- if collection.all_products_count > limit -%}
+
+                          <a href="/collections/all" class="btn fwsb detail_link">{{ 'general.search.view_all' | t }} <i class="lnr lnr-arrow-right"></i></a>
+
+                          {%- endif -%}
+                          {%- endif -%}
+                          </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+              {% endif %}
+              <div class="hot-line">
+                {%- if section.settings.hot_line -%}
+                {{ section.settings.hot_line }}
+                {%- endif -%}
+              </div>
+
+              <ul class="header-control">  
+
+              {% if section.settings.header_use_search_home %}
+              <li class="icon-search-mobile">
+                <a href="/search" class="header-search push_side header-icon" data-id="#search_pupop" title="{{ 'general.search.title' | t }}">
+                  <i class="icon-search"></i>   
+                </a>                        
+              </li>   
+              {% endif %}
+
+
+              {% if section.settings.header_use_account %}
+                {% unless customer %}
+                    <li class="signin item-list display-mobile">
+                    <a href="{{ routes.root_url | append: '/' | replace_first  : '//', '/' }}account/login" data-id="#login_pupop" class="push_side header-icon" title="{{ 'customer.login.sign_in' | t }}" >
+                        <i class="icon-login"></i>
+                        <span>{{ 'customer.login.sign_in' | t }}</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li class="signin item-list display-mobile">	
+                    <a href="{{ routes.root_url | append: '/' | replace_first  : '//', '/' }}account" class="push_side header-icon" title="{{ 'customer.login.sign_out' | t }}" >	
+                        <i class="icon-logout"></i><span>{{ 'customer.login.account_login' | t }}, {{ customer.first_name }}</span>
+                    </a>
+                    </li>	
+                {% endunless %}
+            {% endif %}
+
+                <li class="display-mobile"{% if section.settings.header_use_compare_home == false %} style="display: none;"{% endif %}>
+                    <a href="javascript:void(0);" class="push_side header-icon" data-js-popup-button="compare-full" title="{{ 'general.compare.title' | t }}">
+                    <i class="icon-random"></i>
+                    <span class="header__counter" data-js-compare-count="0"> 0</span>
+                    </a>
+                </li>
+              
+              {% if section.settings.header_use_wishlist_home %}
+              <li class="display-mobile"> 
+                <a href="{{routes.root_url | append: '/' | replace_first  : '//', '/' }}pages/wishlist" class="push_side header-icon" data-id="#wishlist_popup" title="{{ 'general.wishlist.title' | t }}">
+                  <i class="icon-heart"></i>
+                  <span class="header__counter" data-js-wishlist-count="0"> 0</span>
+                </a>                        
+              </li>
+              {% endif %}
+              {% if section.settings.header_use_cart_home %}
+                <li class="box-minicart">
+                  {% include'header-cart' %}
+                </li>
+              {% endif %}
+
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom">
+      <div class="container {% if section.settings.layout == 'full-width' %}{{ section.settings.layout }} {% endif %}">
+        <div class="flex-menu">
+          {%- if section.settings.shop_vertical -%}
+          <div class="col-auto vertical_menu no-mobile">
+            <h4 class="title_vertical_menu flex">
+              <span class="title"><i class="icon-menu1"></i> {{ section.settings.title_vertical }}</span>
+            </h4>
+            <div class="list-vertical_menu">
+              <ul class="lazy_vertical_menu lazyload" data-include="{{ routes.search_url }}?view=vertical_menu">
+                  <div class="loading_bg"></div>
+              </ul>
+            </div>
+          </div>
+          {%- endif -%}
+          <div class="header-nav col-auto">  
+              {%- render 'menu', se_blocks: se_blocks, tp_blocks: tp_blocks -%}
+          </div>
+          <div class="find-store col-auto">
+            {%- if section.settings.store_help -%}
+              {{ section.settings.store_help }}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- if admin_sp -%}
+    {%- assign arr_sub = 'link,link2,banner,html,pr,cat' -%}
+    {%- for block in se_blocks %}
+      <div {% if arr_sub contains block.type %}
+      {% assign id_data = block.id %} {{ block.shopify_attributes }}{% else %}{% assign id_data2 = block.id %}{% endif %}id="bkjs_{{id_data}}" data-id='{{id_data2}}'></div>{% endfor -%}
+{%- endif -%}
+
+<style scoped>
+  .header .main-menu>li>a{
+    color: {{ section.settings.color_menu_text }};
+  }
+
+  .header .header-top{
+    background-color:{{ section.settings.background_header }};
+  }
+
+  .header-bottom{
+    background-color:{{ section.settings.header_bottom_bg }};
+  }
+
+  .vertical_menu{
+    background-color: {{ section.settings.vertical_heading_bg }};
+  }
+
+  .vertical_menu .title{
+    color: {{ section.settings.vertical_heading_cl }};
+  }
+
+  .vertical_menu .title:before{
+    background-color: {{ section.settings.vertical_heading_bg_icon }};
+  }
+
+  .vertical_menu h4.flex i,
+  .vertical_menu h4.flex i:before,
+  .vertical_menu h4.flex i:after{
+    background-color: {{ section.settings.vertical_heading_cl_icon }};
+  }
+    .header .header-icon .header__counter{
+    color: {{ section.settings.color_count }};
+    background: {{ section.settings.background_count }};
+  }
+</style> 

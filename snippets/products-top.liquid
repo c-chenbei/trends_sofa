@@ -1,0 +1,23 @@
+{% assign layout = settings.layout_collection | plus: 0 %}
+{% assign pagination_limit = settings.pagination_limit %}
+{% paginate collection.products by pagination_limit %}
+<div class="top-control box-has-content">
+      <div class="control">
+
+      {% if layout ==3 %}
+        <div class="filter-title">
+          <a href="javascript:void(0)">{{ 'collections.filters.title_tags' | t }} <span class="icon"><i class="lnr lnr-arrow-down"></i> </span></a>
+        </div>
+        {% else %}
+        <a href="javascript:void(0)" class="js-mobile-sidebar mobile-sidebar-btn"> 
+          <i class="fa fa-bars"></i>
+          {{ 'collections.filters.title_tags' | t }}
+        </a> 
+      {% endif %}
+        {% include 'collection-views' %} 
+        <div class="filter-choice col-auto">
+          {% include 'collection-sorting' %}                   
+        </div> 
+      </div>
+    </div>
+{% endpaginate %}

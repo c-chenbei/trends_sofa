@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'fontdavici';
+    src: url('./fontdavici.eot?87651891');
+    src: url('./fontdavici.eot?87651891#iefix') format('embedded-opentype'),
+         url('./fontdavici.woff2?87651891') format('woff2'),
+         url('./fontdavici.woff?87651891') format('woff'),
+         url('./fontdavici.ttf?87651891') format('truetype'),
+         url('./fontdavici.svg?87651891#fontdavici') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+  /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+  /*
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+      font-family: 'fontdavici';
+      src: url('../font/fontdavici.svg?87651891#fontdavici') format('svg');
+    }
+  }
+  */
+  .dv {
+    font-family: "fontdavici";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: never;
+    text-decoration: inherit;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .dv-icon-delivery:before { content: '\e800'; } /* '' */
+  .dv-icon-return:before { content: '\e801'; } /* '' */
+  .dv-icon-security:before { content: '\e802'; } /* '' */
+  .dv-icon-shipping:before { content: '\e803'; } /* '' */
+  .dv-icon-email:before { content: '\e804'; } /* '' */
+  .dv-icon-user:before { content: '\e805'; } /* '' */
+  .dv-icon-instagram:before { content: '\e806'; } /* '' */
+  .dv-icon-chair:before { content: '\e807'; } /* '' */
+  

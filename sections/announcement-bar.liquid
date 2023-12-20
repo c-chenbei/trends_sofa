@@ -1,0 +1,356 @@
+{% if section.settings.home_page_only == false or template.name == 'index' %}
+    <div id="label_{{ section.id }}" class="announcement-bar {{ section.settings.section_style}}{% if section.settings.show_close_btn %} show-close-button parent-close{% endif %}">
+        {% if section.settings.show_close_btn %}
+            <span class="announcement-close btn-close">
+            <span class="icon lnr lnr-cross"></span>
+                {% if section.settings.title_close_btn != blank %}<span class="title">{{ section.settings.title_close_btn}}</span>{% endif %}
+            </span>
+        {% endif %}
+
+        {% include 'grid-slider', settings: section.settings %}
+        <div class="announcement-slider grid-slider" {{ gridSlider }}>
+            {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                    {%- when 'announcement' -%}
+                    <div class="announcement-bar-item" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+                        {%- if block.settings.text != blank -%}
+                            <p class="announcement-bar__message h5">
+                                {{ block.settings.text | escape }}
+                                {%- if block.settings.title_link != blank -%}
+                                    <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
+                                        <span class="title">{{ block.settings.title_link }}</span>
+                                        {% render 'icon-arrow' %}
+                                    </a>                            
+                                {%- endif -%}
+                            </p>
+                        {%- endif -%}
+                    </div>
+                {%- endcase -%}
+            {%- endfor -%}
+        </div>
+    </div>
+{% endif %}
+{% schema %}
+{
+    "name": "t:sections.announcement-bar.name",
+    "max_blocks": 4,
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "home_page_only",
+            "label": "t:sections.announcement-bar.section.settings.show_home.label",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "header_use_top_bar_mobile",
+            "label": "t:sections.announcement-bar.section.settings.show_mobile.label",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_close_btn",
+            "label": "t:sections.announcement-bar.section.settings.close_btn.label",
+            "default": false
+        },
+        {
+            "type": "text",
+            "id": "title_close_btn",
+            "label": "t:sections.announcement-bar.section.settings.close_btn.title",
+            "info": "t:sections.text_blank.label"
+        },
+        {
+            "type": "select",
+            "id": "section_style",
+            "label": "t:sections.announcement-bar.section.settings.style.label",
+            "options": [
+                {
+                    "value": "style1",
+                    "label": "t:sections.announcement-bar.section.settings.style.option__1.label"
+                },
+                {
+                    "value": "style2",
+                    "label": "t:sections.announcement-bar.section.settings.style.option__2.label"
+                }
+            ],
+            "default": "style1"
+        },
+        {
+            "type": "color",
+            "id": "section_bg",
+            "label": "t:sections.announcement-bar.section.settings.color.background_color",
+            "default": "#fff"
+        },
+        {
+            "type": "color",
+            "id": "section_cl",
+            "label": "t:sections.announcement-bar.section.settings.color.color",
+            "default": "#000"
+        },
+        {
+            "type": "color",
+            "id": "link_cl_hv",
+            "label": "t:sections.announcement-bar.section.settings.color.link_hover",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": "t:sections.announcement-bar.section.settings.background_image.label",
+            "info": "t:sections.announcement-bar.section.settings.background_image.content"
+        },          
+        {
+            "type": "header",
+            "content": "t:slick_slider.label",
+            "info": "t:slick_slider.content"
+        },  
+        {
+            "type": "checkbox",
+            "id": "use-slider",
+            "label": "t:slick_slider.use_slider",
+            "default": true
+        },
+        {  
+            "type": "range",  
+            "id": "slides-To-Scroll",  
+            "label": "t:slick_slider.scroll.label",  
+            "info": "t:slick_slider.scroll.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1
+        },   
+        {  
+            "type": "range",  
+            "id": "visible",  
+            "label": "t:slick_slider.visible.label",
+            "info": "t:slick_slider.visible.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },
+        {  
+            "type": "range",  
+            "id": "widescreen",  
+            "label": "t:slick_slider.widescreen.label",
+            "info": "t:slick_slider.widescreen.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },  
+        {  
+            "type": "range",  
+            "id": "desktop",  
+            "label": "t:slick_slider.desktop.label",
+            "info":  "t:slick_slider.desktop.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1  
+        },    
+        {  
+            "type": "range",  
+            "id": "laptop",  
+            "label": "t:slick_slider.laptop.label",
+            "info": "t:slick_slider.laptop.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1
+        },    
+        {  
+            "type": "range",  
+            "id": "notebook",  
+            "label": "t:slick_slider.notebook.label",
+            "info": "t:slick_slider.notebook.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1  
+        },  
+        {  
+            "type": "range",  
+            "id": "tablet",  
+            "label": "t:slick_slider.tablet.label",
+            "info": "t:slick_slider.tablet.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },
+        {  
+            "type": "range",  
+            "id": "landscape",  
+            "label": "t:slick_slider.landscape.label",
+            "info": "t:slick_slider.landscape.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        }, 
+        {  
+            "type": "range",  
+            "id": "portrait",  
+            "label": "t:slick_slider.portrait.label",
+            "info": "t:slick_slider.portrait.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },
+        {  
+            "type": "range",  
+            "id": "mobile",  
+            "label": "t:slick_slider.mobile.label",
+            "info": "t:slick_slider.mobile.content",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },
+        {  
+            "type": "range",  
+            "id": "rows",  
+            "label": "t:slick_slider.rows.label",  
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "unit": "row",
+            "default": 1
+        },
+        {
+            "type": "checkbox",
+            "id": "autoplay",
+            "label": "t:slick_slider.autoplay.label",
+            "default": true
+        },
+        {   
+            "type": "text",
+            "id": "speed",
+            "label": "t:slick_slider.speed.label",
+            "default": "300",
+            "info": "t:slick_slider.speed.content"
+        },
+        {   
+            "type": "text",
+            "id": "autoplay-Speed",
+            "label": "t:slick_slider.autoplay_speed.label",
+            "default": "3000",
+            "info": "t:slick_slider.autoplay_speed.content"
+        },
+        {   
+            "type": "checkbox",
+            "id": "arrows",
+            "label": "t:slick_slider.arrows.label",
+            "default": true
+        },
+        {   
+            "type": "checkbox",
+            "id": "infinite",
+            "label": "t:slick_slider.infinite.label",
+            "default": true
+        },
+        {
+            "type": "number",
+            "id": "padding",
+            "label": "t:slick_slider.padding.label",
+            "default": 15
+        },
+        {   
+            "type": "checkbox",
+            "id": "vertical",
+            "label": "t:slick_slider.vertical.label",
+            "default": false
+        }
+    ],
+    "blocks": [
+        {
+            "type": "announcement",
+            "name": "t:sections.announcement-bar.blocks.announcement.name",
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "text",
+                    "default": "Welcome to our store",
+                    "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+                },
+                {
+                    "type": "text",
+                    "id": "title_link",
+                    "default": "Shop now",
+                    "label": "t:sections.announcement-bar.blocks.announcement.settings.link.title",
+                    "info": "t:sections.text_blank.label"
+                },
+                {
+                    "type": "url",
+                    "id": "link",
+                    "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+                }
+            ]
+        }
+    ],
+    "default": {
+        "blocks": [
+            {
+                "type": "announcement"
+            }
+        ]
+    }
+}
+{% endschema %}
+
+{% style %}
+    #label_{{ section.id }}{
+        background-color: {{ section.settings.section_bg }};
+        color: {{ section.settings.section_cl }};
+        {% if section.settings.background_image != blank %}
+            background-image: url({{ section.settings.background_image | img_url: master }});
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        {% endif %}
+    }
+    #label_{{ section.id }} a:hover{
+        color: {{ section.settings.link_cl_hv }};
+    }
+    #label_{{ section.id }} .slick-prev:before, 
+    #label_{{ section.id }} .slick-next:before{
+        color: {{ section.settings.section_cl }};
+    }
+    #label_{{ section.id }} .slick-prev:hover:before, 
+    #label_{{ section.id }} .slick-next:hover:before{
+        color: {{ section.settings.link_cl_hv }};
+    }
+    {% if section.settings.background_image == blank %}
+        #label_{{ section.id }} .slick-prev, 
+        #label_{{ section.id }} .slick-next{
+            background-color: {{ section.settings.section_bg }};
+        }
+        #label_{{ section.id }} .slick-prev:hover, 
+        #label_{{ section.id }} .slick-next:hover{
+            background-color: {{ section.settings.section_bg }};
+        }
+        #label_{{ section.id }} .btn-close{
+            background-color: {{ section.settings.section_bg }};
+        }
+    {% endif %}
+{% endstyle %}
+{% javascript %}
+    jQuery(document).ready(function ($) {
+        $('.btn-close').on('click', function(){
+        $(this).parents('.parent-close').slideUp();
+        })
+    });
+{% endjavascript %}

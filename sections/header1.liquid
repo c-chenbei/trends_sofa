@@ -1,0 +1,1393 @@
+{% liquid
+  assign se_blocks = section.blocks
+  assign tp_blocks = se_blocks | map: 'type' | join: ', ' | remove: ',link2' | remove: ',link' | remove: ',pr' | remove: ',banner' | remove: ',html' | remove: ',cat' | split: ', '
+%}
+{%- if template.suffix == 'item_menu' and template.name == 'search' -%}
+  {%- render 'menu_import', section: section -%}
+{%- else -%}
+  <div data-section-id="{{ section.id }}" data-section-type="header-section">
+    {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+    {% include 'header_1' %}
+  </div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "网页头部",
+  "class": "header_megamenu",
+  "settings": [
+    {
+      "type": "header",
+      "content": "主标题设置"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "label": "布局"
+    },
+    {
+      "type": "paragraph",
+      "content": " ----- 倒计时 ----- "
+    },
+    {
+      "type": "checkbox",
+      "label": "倒计时",
+      "id": "countdown_target_show",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "countdown_target_content",
+      "label": "倒计时文案",
+      "default": "<b>Four-Day Clearance Flash Sale</b> | Take an Extra 5% Off All Clearance Furniture"
+    },
+    {
+      "type": "checkbox",
+      "id": "countdown_target_flashing",
+      "label": "倒计时文案闪烁",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "倒计时目标日期时间",
+      "id": "countdown_target_datetime",
+      "default": "2023/10/10/16/30/30",
+      "info": "请输入倒计时的目标日期和时间，格式为 'YYYY/MM/DD/HH/mm/ss'。"
+    },
+    {
+      "type": "url",
+      "id": "countdown_target_link",
+      "label": "添加连接"
+    },
+    {
+      "type": "color",
+      "label": "背景颜色",
+      "id": "countdown_target_bg",
+      "default": "rgb(222, 181, 140)"
+    },
+    {
+      "type": "color",
+      "id": "countdown_target__color",
+      "label": "文字颜色",
+      "default": "#000"
+    }, 
+    {
+      "type": "paragraph",
+      "content": " ----- 主菜单 ----- "
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "label": "主菜单对齐: ",
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_search_home",
+      "label": "搜索标题",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_cart_home",
+      "label": "购物车",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_wishlist_home",
+      "label": "愿望清单",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_compare_home",
+      "label": "Show compare on header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_account",
+      "label": "帐户",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_header",
+      "label": "背景标题",
+      "default": "#fff"
+    },
+    /*{
+      "type": "color",
+      "id": "color_menu_text",
+      "label": "文字颜色",
+      "default": "#111"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_icon_menu",
+      "label": "在菜单上启用标签",
+      "default": true
+    },*/
+
+    {
+      "type": "paragraph",
+      "content": " ----- 滚动条 ----- "
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_bar",
+      "label": "显示滚动条模块",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "scroll_bar_content",
+      "label": "滚动条内容",
+      "default": "<div class='text-cont'>1</div><div class='text-cont'>2</div><div class='text-cont'>3</div>"
+    },
+    {
+      "type": "color",
+      "id": "scroll_background",
+      "label": "背景颜色",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "scroll_text",
+      "label": "文字颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "use-slider",
+      "label": "Use slider?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "autoplay-Speed",
+      "label": "轮播速度",
+      "default": "1000",
+      "options": [
+        {
+          "value": "1000",
+          "label": "1s"
+        },
+        {
+          "value": "2000",
+          "label": "2s"
+        },
+        {
+          "value": "3000",
+          "label": "3s"
+        },
+        {
+          "value": "4000",
+          "label": "4s"
+        },
+        {
+          "value": "5000",
+          "label": "5s"
+        },
+        {
+          "value": "6000",
+          "label": "6s"
+        },
+        {
+          "value": "7000",
+          "label": "7s"
+        },
+        {
+          "value": "8000",
+          "label": "8s"
+        },
+        {
+          "value": "9000",
+          "label": "9s"
+        },
+        {
+          "value": "10000",
+          "label": "10s"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "fade",
+      "label": "Fade",
+      "default": true,
+      "info": "Only use for 1 column"
+    },
+    {
+      "type": "checkbox",
+      "id": "center-Mode",
+      "label": "Center Mode",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "adaptive-Height",
+      "label": "Adaptive Height",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Dots",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "infinite",
+      "label": "循环滚动",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "padding",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "vertical",
+      "label": "垂直",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "slides-To-Scroll",
+      "label": "Slide to scroll",
+      "info": "滑动滚动的项目数",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "slides-To-Show",
+      "label": "Slide to show",
+      "info": "The number of items slide to show",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "visible",
+      "label": "Columns in Visible",
+      "info": "item(s) in screen (size>1920)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "widescreen",
+      "label": "Columns in Widescreen",
+      "info": "item(s) in screen (1480<=size<=1919)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "desktop",
+      "label": "Columns in Desktop",
+      "info": "item(s) in screen (1200<=size<=1479)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "laptop",
+      "label": "Columns in Laptop",
+      "info": "item(s) in screen (992<=size<=1199)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "notebook",
+      "label": "Columns in Notebook",
+      "info": "item(s) in screen (768<=size<=991)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "tablet",
+      "label": "Columns in Tablet",
+      "info": "item(s) in screen (576<=size<=767)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "landscape",
+      "label": "Columns in Landscape",
+      "info": "item(s) in screen (480<=size<=575)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "portrait",
+      "label": "Columns in Portrait",
+      "info": "item(s) in screen (360<=size<=480)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile",
+      "label": "Columns in Mobile",
+      "info": "item(s) in screen (240<size<=360)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "rows",
+      "label": "Rows",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": " ----- 右上角图标通知设置 ----- "
+    },
+    {
+      "type": "color",
+      "id": "color_count",
+      "label": "颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color_background",
+      "id": "background_count",
+      "label": "背景",
+      "default": "#000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega",
+      "name": "Mega Menu (Parent)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info": "[Get icons Line awesome](https://icons8.com/line-awesome) Example: bell"
+        },
+        {
+          "type": "checkbox",
+          "id": "cus_cl",
+          "label": "Use custom heading color?",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "default": "#ec0101",
+          "label": "Heading color"
+        },
+        {
+          "type": "text",
+          "id": "lb",
+          "label": "Label text"
+        },
+        {
+          "type": "color",
+          "id": "lb_cl",
+          "label": "Label color"
+        },
+        {
+          "type": "select",
+          "id": "wid",
+          "options": [
+            {
+              "value": "cus",
+              "label": "Custom"
+            },
+            {
+              "value": "full",
+              "label": "Full Width"
+            },
+            {
+              "value": "full container",
+              "label": "Content Full Width"
+            }
+          ],
+          "label": "Width Submenu: "
+        },
+        {
+          "type": "range",
+          "id": "cus_wid",
+          "label": "== Custom Width",
+          "min": 200,
+          "max": 1200,
+          "step": 50,
+          "default": 1200,
+          "unit": "px"
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown Menu (lv 1)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add menu"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info": "[Get icons Line awesome](https://icons8.com/line-awesome) Example: bell"
+        },
+        {
+          "type": "checkbox",
+          "id": "cus_cl",
+          "label": "Use custom heading color?",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "default": "#ec0101",
+          "label": "Heading color"
+        },
+        {
+          "type": "text",
+          "id": "lb",
+          "label": "Label text"
+        },
+        {
+          "type": "color",
+          "id": "lb_cl",
+          "label": "Label color"
+        }
+      ]
+    },
+    {
+      "type": "simple",
+      "name": "Item no children (lv 1)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link",
+          "default": "/"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info": "[Get icons Line awesome](https://icons8.com/line-awesome) Example: bell"
+        },
+        {
+          "type": "checkbox",
+          "id": "cus_cl",
+          "label": "Use custom heading color?",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "default": "#ec0101",
+          "label": "Heading color"
+        },
+        {
+          "type": "text",
+          "id": "lb",
+          "label": "Label text"
+        },
+        {
+          "type": "color",
+          "id": "lb_cl",
+          "label": "Label color"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "↳ Linklist (child)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tt_hd",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add menu"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        }
+      ]
+    },
+    {
+      "type": "link2",
+      "name": "↳ Linklist 2 ( child )",
+      "settings": [
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add menu"
+        }
+      ]
+    },
+    {
+      "type": "pr",
+      "name": "↳ Product (child)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tt_Product",
+          "label": "Heading",
+          "default": "Trending Products"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "label": "Products per page",
+          "info": "Number of products per page",
+          "default": 3
+        },
+        {
+          "id": "id_cat",
+          "type": "collection",
+          "label": "Collection"
+        },
+
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        }
+      ]
+    },
+    {
+      "type": "cat",
+      "name": "↳ Collection (child)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "cat_design",
+          "options": [
+            {
+              "value": "1",
+              "label": "Default"
+            },
+            {
+              "value": "2",
+              "label": "Design 2"
+            },
+            /*{
+               "value": "3",
+               "label": "Design 3"
+             },
+             {
+               "value": "4",
+               "label": "Design 4"
+             },
+             {
+               "value": "5",
+               "label": "Design 5"
+             },*/
+            {
+              "value": "6",
+              "label": "Design 3"
+            }
+          ],
+          "label": "Collections design",
+          "default": "1"
+        },
+        {
+          "type": "checkbox",
+          "id": "hoverz",
+          "label": "Enable zoom image on hover?",
+          "default": true
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title block (optional)",
+          "info": "Leave empty to use 'collection title' title."
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "↳ Banner (child)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "label": "Link to (Optional)",
+          "id": "url",
+          "type": "url"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in"
+        },
+        {
+          "type": "header",
+          "content": "== Content Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_content_banner",
+          "label": "show name collections",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "coll_name",
+          "label": "name collections: ",
+          "default": "collections"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "name": "↳ HTML ( child )",
+      "settings": [
+        {
+          "type": "html",
+          "id": "html",
+          "label": "HTML custom",
+          "default": "HTML custom code"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col: "
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "simple",
+        "settings": {
+          "title": "Home",
+          "url": "/"
+        }
+      },
+      {
+        "type": "simple",
+        "settings": {
+          "title": "Demos",
+          "url": "#"
+        }
+      }
+    ]
+  }
+}
+{% endschema %}

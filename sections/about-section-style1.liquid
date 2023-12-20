@@ -1,0 +1,487 @@
+{% liquid
+  assign sid = section.id 
+%}
+
+   
+{%- for i in (1..1) -%}
+  
+<section class="laber_{{ sid }} about-us">       
+  <div class="container {% if section.settings.layout == "full-width" %}{{ section.settings.layout }}{% endif %}">
+    
+    {%- if section.settings.hidden %}{% break %}{% endif -%}
+    <div class="section_content ">
+
+      <div class="part" >
+        <div class="row {{ section.settings.image_ratio }} {% if section.settings.use_eq_height %} equal_nt{% endif %}">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="block-main-about">
+              <div class="about-favicon">
+                {% assign abfavicon = section.settings.top_favicon | img_url: "136x136" %}
+                  <img src="{{abfavicon }}" alt="">
+              </div>
+              <h3 class="heading-page">
+                {% assign heading_page = section.settings.heading_page %}
+                {{heading_page}} 
+              </h3>
+              <p class="sub-heading-page">
+                {% assign sub_heading_page = section.settings.sub_heading_page %}
+                {{sub_heading_page}}
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-12 block-image-top">
+            <div class="block-content">
+              {% assign bannertop = section.settings.top_banner %} 
+                <div class="images">
+                	<div class="lazyload pr_lazy_img laber_bg_lz"  data-bg="{% if bannertop != blank %}{{ bannertop | img_url: '1409x' }}{% else %}https://placehold.jp/50/f3f3f3/222/1409x743.png?text=1409x743"{% endif %} data-ratio="{{ bannertop.aspect_ratio }}" style="{% if bannertop != blank %}padding-top:{{ 1 | divided_by: bannertop.aspect_ratio | times: 100 }}%; {% else %}padding-top:52.732%; {% endif %}" ></div>
+                </div> 
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-12 first wrap-lookbook-about">
+            <div class="primary">
+              <div class="primary-content">
+                {% assign banner2 = section.settings.large_banner %} 
+                <div class="images">
+                  <div class="image-item">
+                    <div class="lazyload pr_lazy_img laber_bg_lz"  data-bg="{% if banner2 != blank %}{{ banner2 | img_url: '656x' }}{% else %}https://placehold.jp/50/f3f3f3/222/690x690.png?text=656x437"{% endif %} data-ratio="{{ banner2.aspect_ratio }}" style="{% if banner2 != blank %}padding-top:{{ 1 | divided_by: banner2.aspect_ratio | times: 100 }}%; {% else %}padding-top:66.616%; {% endif %}" ></div>
+                  </div>
+                	
+                </div>
+                <div class="content">
+                  {% if section.settings.sub_title != blank %}    
+                    {% assign somearray = section.settings.sub_title | split: ' ' %}
+                      <div class="section-subtitle">
+                        {% for item in somearray %}
+                          <span> {{ item }} </span>
+                        {% endfor %}
+                      </div>
+                  {% endif %} 
+                  {% if section.settings.title != blank %}              	
+                    <h3 class="section-title">   
+                      <span>
+                      {{ section.settings.title }}                    
+                      </span>
+                    </h3>
+                  {% endif %}              
+                  <p>{{ section.settings.pharse_caption }}</p>   
+                  
+                  {% if section.settings.button_part != blank %}    
+                    <a class="button_part" href="{{ section.settings.button_link_part }}"> {{ section.settings.button_part }} </a>
+                  {% endif %}
+                </div>
+                
+
+                
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-12 second wrap-lookbook-about">
+            <div class="secondary"> 
+              <div class="secondary-content">
+                 
+                <div class="content">
+                  {% if section.settings.sub_title1 != blank %}    
+                    {% assign createarray = section.settings.sub_title1 | split: ' ' %}
+                      <div class="section-subtitle">
+                        {% for item in createarray %}
+                          <span> {{ item }} </span>
+                        {% endfor %}
+                      </div>
+                  {% endif %} 
+                  {% if section.settings.title1 != blank %}              	
+                    <h3 class="section-title">   
+                      <span>
+                      {{ section.settings.title1 }}                    
+                      </span>
+                    </h3>
+                  {% endif %}              
+                  <p>{{ section.settings.pharse_caption1 }}</p>   
+                  
+                  {% if section.settings.button_part != blank %}    
+                    <a class="button_part" href="{{ section.settings.button_link_part }}"> {{ section.settings.button_part }} </a>
+                  {% endif %}
+                </div>
+                {% assign banner1 = section.settings.small_banner %}
+                <div class="images">
+                  <div class="image-item">
+                    <div class="lazyload pr_lazy_img laber_bg_lz"  data-bg="{% if banner1 != blank %}{{ banner1 | img_url: '656x437' }}{% else %}https://placehold.jp/50/f3f3f3/222/690x690.png?text=656x437"{% endif %} data-ratio="{{ banner1.aspect_ratio }}" style="{% if banner1 != blank %}padding-top:{{ 1 | divided_by: banner1.aspect_ratio | times: 100 }}%;{% else %} padding-top:66.616%;{% endif %}"></div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-sm-12 col-md-12 col-lg-12 block-map">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="content-visit">
+                  {% if section.settings.sub_title_visit != blank %}    
+                    {% assign visit = section.settings.sub_title_visit | split: ' ' %}
+                      <div class="section-subtitle">
+                        {% for item in visit %}
+                          <span> {{ item }} </span>
+                        {% endfor %}
+                      </div>
+                  {% endif %} 
+                  {% if section.settings.title_visit != blank %}              	
+                    <h3 class="section-title">   
+                      <span>
+                      {{ section.settings.title_visit }}                    
+                      </span>
+                    </h3>
+                  {% endif %}
+                </div>
+                 
+              </div>
+              <div class="col-xl-6 col-lg-6 col-12 about__item">
+                {% assign address1 = section.settings.map1 %}
+                <div class="location">
+                  {{ address1 }}
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-12 about__item">
+                {% assign address2 = section.settings.map2 %}
+                <div class="location">
+                  {{ address2 }}
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</section>
+{%- endfor -%}
+{% style %}
+{% assign mg_top = section.settings.mg_top %}
+{% assign mg_bottom = section.settings.mg_bottom %}
+{% assign pd_top = section.settings.pad_top %}
+{% assign pd_bottom = section.settings.pad_bottom %}
+{% assign mobile_mg_top = section.settings.mobile_mg_top %}
+{% assign mobile_mg_bottom = section.settings.mobile_mg_bottom %}
+{% assign mobile_pd_top = section.settings.mobile_pd_top %}
+{% assign mobile_pd_bottom = section.settings.mobile_pd_bottom %}
+
+	.laber_{{ sid }}{
+      {% if mg_top != 0 %}margin-top:{{mg_top }}px;{% endif %} 
+      {% if mg_bottom != 0 %}margin-bottom:{{ mg_bottom }}px;{% endif %} 
+      {% if pd_top != 0 %}padding-top:{{ pd_top }}px;{% endif %} 
+      {% if pd_bottom != 0 %}padding-bottom:{{ pd_bottom }}px;{% endif %} 
+	}
+    @media (max-width: 767px) {
+      .laber_{{ sid }}{
+        {% if mobile_mg_top != 0 %}margin-top:{{ mobile_mg_top }}px;{% endif %} 
+        {% if mobile_mg_bottom != 0 %}margin-bottom:{{mobile_mg_bottom }}px;{% endif %} 
+        {% if mobile_pd_top != 0 %}padding-top:{{ mobile_pd_top }}px;{% endif %} 
+        {% if mobile_pd_bottom != 0 %}padding-bottom:{{mobile_pd_bottom }}px;{% endif %} 
+      }
+    }
+{% endstyle %} 
+{%- schema -%}
+  {
+    "name": "About us (style 1)",
+    "class": "laber_section cms_section type_about_1",	
+    "settings": [
+	  {
+        "type": "header",
+        "content": "== Design Options"
+      },
+      {
+        "type": "checkbox",
+        "id": "hidden",
+        "label": "Hidden Section?",
+        "default": false
+      },      
+      {
+        "type": "select",
+        "id": "layout",
+        "default": "container",
+        "options": [
+         {
+            "value": "container",
+            "label": "Container"
+         },
+         {
+            "value": "full-width",
+            "label": "Full Width"
+          }
+        ],
+        "label": "Layout"
+      },
+        {
+          "type": "range",
+          "id": "mg_top",
+          "label": "Margin Top",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "mg_bottom",
+          "label": "Margin bottom",
+          "default": 100,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pad_top",
+          "label": "Padding Top",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pad_bottom",
+          "label": "Padding bottom",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "header",
+          "content": "== Setting mobile",
+          "info": "Padding and Margin"
+        },
+       {
+          "type": "range",
+          "id": "mobile_mg_top",
+          "label": "Margin top",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "mobile_mg_bottom",
+          "label": "Margin bottom",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "mobile_pd_top",
+          "label": "Padding top",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "mobile_pd_bottom",
+          "label": "Padding bottom",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px"
+        },
+      {
+        "type": "header",
+        "content": "==General setting"
+      },
+      {
+        "type": "image_picker",
+        "id": "top_favicon",
+        "label": "Favicon",
+        "info" : "Dimension: 136 x 136"
+      }, 
+      {
+        "type": "image_picker",
+        "id": "top_banner",
+        "label": "Top banner",
+        "info" : "Dimension: 1409 x 743"
+      },
+      {
+        "type": "image_picker",
+        "id": "large_banner",
+        "label": "Left banner",
+        "info" : "Dimension: 656 x 437"
+      },
+      {
+        "type": "image_picker",
+        "id": "small_banner",
+        "label": "Right banner",
+        "info" : "Dimension: 656 x 437"
+      }, 
+      {
+        "type": "header",
+        "content": "== Design Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_eq_height",
+        "label": "Use equal height images?",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "image_ratio",
+        "label": "Aspect Ratio",
+        "default": "ratio3_2",
+        "info": "Aspect Ratio Custom will settings in General panel.",
+        "options": [
+          {
+            "group": "Landscape",
+            "value": "ratio2_1",
+            "label": "2:1"
+          },
+          {
+            "group": "Landscape",
+            "value": "ratio16_9",
+            "label": "16:9"
+          },
+          {
+            "group": "Landscape",
+            "value": "ratio8_5",
+            "label": "8:5"
+          },
+          {
+            "group": "Landscape",
+            "value": "ratio3_2",
+            "label": "3:2"
+          },
+          {
+            "group": "Landscape",
+            "value": "ratio4_3",
+            "label": "4:3"
+          },
+          {
+            "group": "Landscape",
+            "value": "ratio_nt",
+            "label": "Ratio ASOS"
+          },
+          {
+            "group": "Squared",
+            "value": "ratio1_1",
+            "label": "1:1"
+          },
+          {
+            "group": "Portrait",
+            "value": "ratio2_3",
+            "label": "2:3"
+          },
+          {
+            "group": "Portrait",
+            "value": "ratio1_2",
+            "label": "1:2"
+          },
+		   {
+            "group": "Custom",
+            "value": "ratio_custom_1",
+            "label": "Custom 1(128%)"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "==Favicon area setting"
+      },
+      {
+        "type": "text",
+        "id": "heading_page",
+        "label": "Heading",
+        "default": "Heading"
+      },
+	    {
+        "type": "text",
+        "id": "sub_heading_page",
+        "label": "Sub heading",
+		    "default": "Sub heading"
+      },  
+      {
+        "type": "header",
+        "content": "==Content area setting"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title of caption",
+        "default": "Design caption"
+      },
+	    {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Subtitle of section",
+		    "default": "We design furniture"
+      },
+      {
+        "type": "text",
+        "id": "title1",
+        "label": "Title of caption1",
+        "default": "Design quaility"
+      },
+	    {
+        "type": "text",
+        "id": "sub_title1",
+        "label": "Subtitle of caption1",
+		    "default": "We design furniture"
+      },      		 
+      	
+      {
+        "type": "text",
+        "id": "title_visit",
+        "label": "Title of visit",
+        "default": "Visit our store"
+      },
+	    {
+        "type": "text",
+        "id": "sub_title_visit",
+        "label": "Subtitle of visit",
+		    "default": "We design furniture"
+      },
+      {
+        "type": "textarea",
+        "id": "pharse_caption",
+        "label": "Pharse caption",
+		    "default": "The top three occupations in the Beauty salons Industry Group are Hairdressers, hairstylists, & cosmetologists, Manicurists and pedi-curists, Receptionists & information clerks, Supervisors of personal care and service workers, and Skincare specialists."
+      },
+      {
+        "type": "textarea",
+        "id": "pharse_caption1",
+        "label": "Pharse caption1",
+		    "default": "Ut leo. Vivamus aliquet elit ac nisl. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac enim. Sed cursus turpis vitae tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus.In consectetuer turpis ut velit. Suspendisse feugiat. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Fusce neque. Nam commodo suscipit quam."
+      },
+      {
+        "type": "textarea",
+        "id": "map1",
+        "label": "1 . store map",
+		    "default": "1 . store map"
+      },
+      {
+        "type": "textarea",
+        "id": "map2",
+        "label": "2 . store map",
+		    "default": "2 . store map"
+      }
+    ],
+    "presets": [
+      {
+        "name": "4. About us (style 1)",
+        "category": "Introduce"
+      }
+    ]
+  }
+{% endschema %}

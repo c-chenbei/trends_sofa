@@ -1,0 +1,192 @@
+{% assign grid_list = settings.grid_list | plus: 0 %}
+{% assign pagination_limit = settings.pagination_limit | plus: 0 %}
+{% assign filters_type = settings.filters_type | plus: 0 %}
+{% paginate collection.products by pagination_limit %}
+  {% if paginate.items > 0 %}
+  
+      <div  class="js_products_arrivals products-arrivals {% if grid_list == 1 %}grid-style{% else %}list-style{% endif %}"> 
+        <div class="ajax_load">
+          <div class="jloading">	
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div id="collection-product" class="js_products_holder products product-container row section-content">
+          {% for product in products %}              
+                {% include 'product-grid-item' %}              
+            {% endfor %} 
+        </div>
+        <div class="bot_page_collection">
+          {% assign val_1 = paginate.current_offset %}
+          {% if paginate.pages > 1 %}
+          {% assign val_1 = paginate.current_offset %}
+          {% assign val_2 = val_1 | plus: paginate.page_size %}
+          {% if val_2 > paginate.items %}
+          {% assign val_2 = paginate.items %}
+          {% endif %}
+           <span class="note products-result-count col align-left">{{ 'collections.general.showing' | t }} {% if paginate.items > 0 %}{{ val_1 | plus: 1 }}{% else %} {{ val_1}} {% endif %}&ndash;{{ val_2 }} of {{ paginate.items }} {{ 'collections.general.results' | t }}</span>
+         
+          <nav class="pagination {% if filters_type == 1 %}js_paginate_ajax{% endif %} col-auto">      
+            {% comment %}{{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}{% endcomment %}
+            <ul class="page-numbers list-page">
+
+              {% if paginate.previous.is_link %}
+              <li> <a class="nav-button page-numbers page-previous" href="{{ paginate.previous.url }}#primary"><i class="fa fa-angle-left" aria-hidden="true"></i> <span>{{ 'general.pagination.previous' | t }}</span></a></li>           
+              {% endif %}
+              {% assign i=1 %}
+              {% for i in (1..paginate.pages) %}
+              {% if paginate.current_page == i %}
+              <li><a href="javascript:void(0)" class="page-number current">{{ i }}</a></li>
+              {% else %}
+              {% assign index = i | plus: 0 %}
+              {% assign index = index | minus: 1 %}
+              {% if paginate.parts[index].is_link == true %}
+              <li><a class="page-number" href="{{ paginate.parts[index].url }}#primary">{{ paginate.parts[index].title }}</a></li>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+
+              {% if paginate.next.is_link %}
+              <li> <a class="nav-button page-numbers page-next" href="{{ paginate.next.url }}#primary"><span>{{ 'general.pagination.next' | t }}</span> <i class="fa fa-angle-right" aria-hidden="true"></i></a></li>           
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %} 
+          <input type="hidden" id="productPerPage" value="{% assign number = section.settings.grid_select | plus: 0 %}{% if number > 2.4 %}{{ section.settings.grid_select }}{% else %}2.4{% endif %}"/>
+        	<input type="hidden" id="limitProductPage" value="{{ pagination_limit }}"/>
+        </div> 
+      </div>     
+	{% else %}
+		<div class="shopify-info no-products"><i class="flash fa fa-exclamation-triangle" aria-hidden="true"></i>{{ 'collections.general.no_matches' | t }}</div>
+	{% endif %}
+{% endpaginate %}
+
+{% render 'grid-style', settings: section.settings %}
+{% schema %}
+  {
+    "name": "Content",
+	"class": "product_section",
+    "settings": [
+		{
+          "type": "header",
+          "content": "---- Grid Show Product ----"
+        },    
+        {  
+            "type": "range",  
+            "id": "visible",  
+            "label": "Columns in Visible",
+            "info": "Item(s) in screen ( Size >= 1920 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 3
+        },
+        {  
+            "type": "range",  
+            "id": "widescreen",  
+            "label": "Columns in Widescreen",
+            "info": "Item(s) in screen ( 1366 <= Size < 1920 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 3
+        },  
+        {  
+            "type": "range",  
+            "id": "desktop",  
+            "label": "Columns in Desktop",
+            "info":  "Item(s) in screen ( 1200 <= Size < 1480 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 3  
+        },    
+        {  
+            "type": "range",  
+            "id": "laptop",  
+            "label": "Columns in Laptop",
+            "info": "Item(s) in screen ( 992 <= Size < 1200 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 3
+        },    
+        {  
+            "type": "range",  
+            "id": "notebook",  
+            "label": "Columns in Notebook",
+            "info": "Item(s) in screen ( 768 <= Size < 992 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 2 
+        },  
+        {  
+            "type": "range",  
+            "id": "tablet",  
+            "label": "Columns in Tablet",
+            "info": "Item(s) in screen ( 576 <= Size < 768 )",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "unit": "col",
+            "default": 3
+        },
+        {  
+            "type": "range",  
+            "id": "landscape",  
+            "label": "Columns in Landscape",
+            "info": "Item(s) in screen ( 480 <= Size < 576 )",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "unit": "col",
+            "default": 2 
+        }, 
+        {  
+            "type": "range",  
+            "id": "portrait",  
+            "label": "Columns in Portrait",
+            "info": "Item(s) in screen ( 360 < Size < 480 )",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "unit": "col",
+            "default": 2 
+        },
+        {  
+            "type": "range",  
+            "id": "mobile",  
+            "label": "Columns in Mobile",
+            "info": "Item(s) in screen ( Size < = 360 )",
+            "min": 1,
+            "max": 4,
+            "step": 1,
+            "unit": "col",
+            "default": 1 
+        },
+        {
+            "type": "number",
+            "id": "padding_lr",
+            "label": "Padding left & right",
+            "default": 15
+        },
+        {
+            "type": "number",
+            "id": "padding_tb",
+            "label": "Padding top & bottom",
+            "default": 0
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

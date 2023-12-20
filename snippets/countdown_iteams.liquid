@@ -1,0 +1,21 @@
+
+{% if countdown.size > 0 %}
+<div class="countdown-wrap">
+  <div class="countdown-main">
+  {% for time-countdown in countdown %} 
+  	{% assign data_times = time-countdown | last %}
+    {%- assign times = data_times | split: ' ' -%}
+    {%- assign ymd = times[0] | split: '/' -%}
+    
+    {%- assign his = times[1] | split: ': ' -%}
+	<div class="cms-countdown" data-y="{{ ymd[0] }}" data-m="{{ ymd[1] }}" data-d="{{ ymd[2] }}"  data-h="{{ his[0] }}"  data-i="{{ his[1] }}" data-s="{{ his[2] }}">
+        <span class="box-count day"><span class="number"> 0</span><span class="text">d</span></span>
+        <span class="box-count hrs"><span class="number"> 0</span><span class="text">h</span></span>
+        <span class="box-count min"><span class="number"> 0</span><span class="text">m</span></span>
+        <span class="box-count secs"><span class="number"> 0</span> <span class="text">s</span></span>
+    </div>
+    {{ content }}
+  {% endfor %}
+  </div>
+</div>
+{% endif %}

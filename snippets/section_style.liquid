@@ -1,0 +1,62 @@
+{%- liquid
+    assign mg_top = section.settings.mg_top
+    assign mg_bottom = section.settings.mg_bottom
+    assign pd_top = section.settings.pd_top
+    assign pd_bottom = section.settings.pd_bottom
+
+    assign mg_top_laptop = section.settings.mg_top_laptop
+    assign mg_bottom_laptop = section.settings.mg_bottom_laptop
+    assign pd_top_laptop = section.settings.pd_top_laptop
+    assign pd_bottom_laptop = section.settings.pd_bottom_laptop
+
+    assign mg_top_tablet = section.settings.mg_top_tablet
+    assign mg_bottom_tablet = section.settings.mg_bottom_tablet
+    assign pd_top_tablet = section.settings.pd_top_tablet
+    assign pd_bottom_tablet = section.settings.pd_bottom_tablet
+
+    assign mg_top_mobile = section.settings.mg_top_mobile
+    assign mg_bottom_mobile = section.settings.mg_bottom_mobile
+    assign pd_top_mobile = section.settings.pd_top_mobile
+    assign pd_bottom_mobile = section.settings.pd_bottom_mobile
+
+    assign sid = section.id
+-%}
+
+
+{%- capture style -%}
+    #laber_{{ sid }} {
+        margin-top: {{ mg_top }}px;
+        margin-bottom: {{ mg_bottom }}px;
+        padding-top: {{ pd_top }}px;
+        padding-bottom: {{ pd_bottom }}px;
+    }
+
+    @media only screen and (max-width: 1199px) {
+        #laber_{{ sid }} {
+            margin-top: {{ mg_top_laptop }}px;
+            margin-bottom: {{ mg_bottom_laptop }}px;
+            padding-top: {{ pd_top_laptop }}px;
+            padding-bottom: {{ pd_bottom_laptop }}px;
+        }
+    }
+
+    @media only screen and (max-width: 1199px) {
+        #laber_{{ sid }} {
+            margin-top: {{ mg_top_tablet }}px;
+            margin-bottom: {{ mg_bottom_tablet }}px;
+            padding-top: {{ pd_top_tablet }}px;
+            padding-bottom: {{ pd_bottom_tablet }}px;
+        }
+    }
+
+    @media only screen and (max-width: 1199px) {
+        #laber_{{ sid }} {
+            margin-top: {{ mg_top_mobile }}px;
+            margin-bottom: {{ mg_bottom_mobile }}px;
+            padding-top: {{ pd_top_mobile }}px;
+            padding-bottom: {{ pd_bottom_mobile }}px;
+        }
+    }
+{%- endcapture -%}
+
+{%- style -%}{{ style | strip_newlines | remove: "  " }}{%- endstyle -%}

@@ -1,0 +1,60 @@
+{% if section.settings.home_page_only == false or template.name == 'index' %}
+{% if section.settings.use_banner_top_header %}
+<div class="{{ section.settings.layout }}">
+  <div class="image">
+   
+    <img src="{% if section.settings.image_top_header %}{{ section.settings.image_top_header | img_url: "1920x300" }}{% else %}https://placehold.jp/14/ff0000/fff/1920x300.png?text=1920x300+Image {% endif %}" alt="Payment">
+</div>
+</div>
+{% endif %}
+{% endif %}
+
+
+
+{% schema %}
+  {
+    "name": "banner top header",
+    "settings": [
+      {
+	"type": "header","content": "== Banner Settings"
+	},
+	{
+          "type": "checkbox",
+          "id": "use_banner_top_header",
+          "label": "Show banner top header",
+          "default": true
+        },
+		{
+          "type": "checkbox",
+          "id": "home_page_only",
+          "label": "Home page only",
+          "default": false
+        },
+      {
+        "id": "image_top_header",
+        "type": "image_picker",
+        "label": "Add image"
+      },
+	{
+          "type": "select",
+          "id": "layout",
+          "default": "container",
+          "options": [
+           {
+              "value": "container",
+              "label": "Container"
+           },
+           {
+              "value": "full-width",
+              "label": "Full Width"
+            }
+          ],
+          "label": "Layout"
+        }
+    ],
+    "blocks": [
+
+    ]
+	
+  }
+{% endschema %}
